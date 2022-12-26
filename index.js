@@ -19,3 +19,34 @@ app.delete('/canciones/:id', (req, res) => {
   fs.writeFileSync('canciones.json', JSON.stringify(canciones))
   res.send('la canción se eliminó')
 })
+app.put('/canciones/:id', (req, res) => {
+  const { id } = req.params
+  const cancion = req.body
+  const canciones = JSON.parse(fs.readFileSync('canciones.json'))
+  const index = canciones.findIndex((song) => song.id == id)
+  canciones[index] = cancion
+  fs.writeFileSync('canciones.json', JSON.stringify(canciones))
+  res.send('la cancion se modifico')
+})
+
+app.post('/canciones', (req, res) => {
+  const cancion = req.body
+  const canciones = JSON.parse(fs.readFileSync('canciones.json'))
+  var existe = false
+  for (song of canciones) {
+    if((song.titulo == cancion.titulo) && (song.artista == cancion.artista) && (song.tono == cancion.tono)){
+        existe = true
+    }
+  }
+  if (existe) {
+    res.send('cancion ya se encuentra en la lista')
+  } else {
+    canciones.push(cancion)
+    fs.writeFileSync('canciones.json', JSON.stringify(canciones))
+    res.send('cancion se guardo con exito')
+  }
+})
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html')
+})
