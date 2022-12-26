@@ -17,9 +17,8 @@ app.delete('/canciones/:id', (req, res) => {
   const index = canciones.findIndex((song) => song.id == id)
   canciones.splice(index, 1)
   fs.writeFileSync('canciones.json', JSON.stringify(canciones))
-  res.send('cancion se elimino con exito')
+  res.send('la canción se eliminó')
 })
-
 app.put('/canciones/:id', (req, res) => {
   const { id } = req.params
   const cancion = req.body
@@ -27,7 +26,7 @@ app.put('/canciones/:id', (req, res) => {
   const index = canciones.findIndex((song) => song.id == id)
   canciones[index] = cancion
   fs.writeFileSync('canciones.json', JSON.stringify(canciones))
-  res.send('cancion se modifico con exito')
+  res.send('la cancion se modifico')
 })
 
 app.post('/canciones', (req, res) => {
@@ -51,4 +50,3 @@ app.post('/canciones', (req, res) => {
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 })
-
